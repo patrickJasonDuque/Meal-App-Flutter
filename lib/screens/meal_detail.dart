@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/dummy_data.dart';
 
-import '../widgets/meal_detail_label.dart';
-
 class MealDetail extends StatelessWidget {
   static const routeName = '/meal_detail';
 
@@ -10,6 +8,19 @@ class MealDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final mealId = ModalRoute.of(context).settings.arguments as String;
     final mealData = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
+
+    Widget mealLabelBuilder(BuildContext ctx, String title, String label) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.headline6),
+            Text(label, style: Theme.of(context).textTheme.headline6),
+          ],
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -39,10 +50,10 @@ class MealDetail extends StatelessWidget {
                     color: Colors.white),
               ),
             ),
-            MealDetailLabel('Duration: ', '${mealData.duration}m'),
-            MealDetailLabel(
-                'Complexity: ', mealData.complexity.toString().split('.')[1]),
-            MealDetailLabel('Affordability: ',
+            mealLabelBuilder(context, 'Duration: ', '${mealData.duration}m'),
+            mealLabelBuilder(context, 'Complexity: ',
+                mealData.complexity.toString().split('.')[1]),
+            mealLabelBuilder(context, 'Affordability: ',
                 mealData.affordability.toString().split('.')[1]),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -95,7 +106,8 @@ class MealDetail extends StatelessWidget {
               width: double.infinity,
               child: ListView(
                 children: [
-                  ...mealData.steps.map((step) => Container(
+                  ...mealData.steps.map(
+                    (step) => Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
@@ -104,7 +116,9 @@ class MealDetail extends StatelessWidget {
                       child: Text(
                         step,
                         style: TextStyle(fontSize: 18),
-                      )))
+                      ),
+                    ),
+                  )
                 ],
               ),
             )

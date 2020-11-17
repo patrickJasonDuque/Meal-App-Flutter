@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './category_meal_label.dart';
 import '../screens/meal_detail.dart';
 
 import '../models/meal.dart';
@@ -22,6 +21,24 @@ class CategoryMealItem extends StatelessWidget {
 
   void selectMeal(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(MealDetail.routeName, arguments: id);
+  }
+
+  Widget buildCategoryMealLabel(BuildContext ctx, String text, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Icon(
+            icon,
+            color: Theme.of(ctx).primaryColor,
+          ),
+        ),
+        Text(
+          text,
+          style: Theme.of(ctx).textTheme.bodyText1,
+        ),
+      ],
+    );
   }
 
   @override
@@ -75,17 +92,20 @@ class CategoryMealItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    CategoryMealLabel(
-                      text: '${duration}m',
-                      icon: Icons.access_time_outlined,
+                    buildCategoryMealLabel(
+                      context,
+                      '${duration}m',
+                      Icons.access_time_outlined,
                     ),
-                    CategoryMealLabel(
-                      text: affordability.toString().split('.')[1],
-                      icon: Icons.attach_money_outlined,
+                    buildCategoryMealLabel(
+                      context,
+                      affordability.toString().split('.')[1],
+                      Icons.attach_money_outlined,
                     ),
-                    CategoryMealLabel(
-                        text: complexity.toString().split('.')[1],
-                        icon: Icons.work_outline),
+                    buildCategoryMealLabel(
+                        context,
+                        complexity.toString().split('.')[1],
+                        Icons.work_outline),
                   ],
                 ),
               )
