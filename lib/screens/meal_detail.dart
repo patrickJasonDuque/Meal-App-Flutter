@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/dummy_data.dart';
 
+import '../widgets/meal_detail_label.dart';
+
 class MealDetail extends StatelessWidget {
   static const routeName = '/meal_detail';
 
@@ -13,22 +15,101 @@ class MealDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(mealData.title),
       ),
-      body: Column(
-        children: <Widget>[
-          Image.network(
-            mealData.imageUrl,
-            fit: BoxFit.cover,
-            height: 300,
-            width: double.infinity,
-          ),
-          Container(
-            child: Text(mealData.title,
-                style: Theme.of(context).textTheme.headline6),
-          ),
-          // ListView(
-          //   children: <Widget>[...mealData.steps.map((step) => Text(step))],
-          // )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Image.network(
+              mealData.imageUrl,
+              fit: BoxFit.cover,
+              height: 300,
+              width: double.infinity,
+            ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(8.0),
+              color: Color.fromRGBO(0, 0, 0, 0.6),
+              child: Text(
+                mealData.title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 23,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+            MealDetailLabel('Duration: ', '${mealData.duration}m'),
+            MealDetailLabel(
+                'Complexity: ', mealData.complexity.toString().split('.')[1]),
+            MealDetailLabel('Affordability: ',
+                mealData.affordability.toString().split('.')[1]),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Text(
+                'Ingredients:',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Theme.of(context).primaryColor)),
+              height: 200,
+              width: double.infinity,
+              child: ListView(
+                children: [
+                  ...mealData.ingredients.map((ingredient) => Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Theme.of(context).accentColor),
+                      margin: const EdgeInsets.all(4),
+                      child: Text(
+                        ingredient,
+                        style: TextStyle(fontSize: 18),
+                      )))
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Text(
+                'How to make:',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Theme.of(context).primaryColor)),
+              height: 200,
+              width: double.infinity,
+              child: ListView(
+                children: [
+                  ...mealData.steps.map((step) => Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Theme.of(context).accentColor),
+                      margin: const EdgeInsets.all(4),
+                      child: Text(
+                        step,
+                        style: TextStyle(fontSize: 18),
+                      )))
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
