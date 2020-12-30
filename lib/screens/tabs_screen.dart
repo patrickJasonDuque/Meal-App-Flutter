@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../widgets/drawer_navigation.dart';
+
 import './categories.dart';
 import './favorites.dart';
 
@@ -20,16 +23,6 @@ class _TabScreenState extends State<TabScreen> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  Widget _buildDrawerItem(BuildContext ctx, String text, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Text(text), Icon(icon)],
-      ),
-    );
   }
 
   @override
@@ -64,17 +57,7 @@ class _TabScreenState extends State<TabScreen> {
 
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                _buildDrawerItem(context, 'Categories', Icons.category),
-                _buildDrawerItem(context, 'Favorites', Icons.star)
-              ],
-            ),
-          ),
-        ),
+        drawer: DrawerNavigation(),
         appBar: AppBar(
           title: Text(_widgetList[_selectedIndex]['title']),
         ),
